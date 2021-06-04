@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <style>
+            div{
+                font-size: 20px;
+            }
+        </style>
+        <script>
+            $(document).ready(function () {
+                $("#choice1").click(function () {
+                    player.playVideo();
+                    document.getElementById("Choice1").innerHTML = "Correct";
+                    $('#choice1').hide();
+                    $('#erot').hide();
+                    $('#choice2').hide();
+                    $("#Choice1").hide(3000);
+                });
+                $("#choice2").click(function () {
+                    player.playVideo();
+                    document.getElementById("Choice2").innerHTML = "Wrong";
+                    $('#choice2').hide();
+                    $("#erot").hide();
+                    $('#choice1').hide();
+                    $('#Choice2').hide(3000);
+                });
+            });
+        </script>                
+    </head> 
+    <body>
+        <p   id="player"> </p>
+        <br>
+        <script>
+            // 2. This code loads the IFrame Player API code asynchronously.
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            // 3. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+            var player;
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('player', {
+                    height: '390',
+                    width: '640',
+                    videoId: 'hWPPD5ww0eA',
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange,
+                    }
+                });
+            }
+
+            // 4. The API will call this function when the video player is ready.
+            function onPlayerReady(event) {
+                event.target.playVideo();
+            }
+
+            // 5. The API calls this function when the player's state changes.
+            //    The function indicates that when playing a video (state=1),
+            //    the player should play for six seconds and then stop.
+            var done = false;
+            var time = 4000;
+            function onPlayerStateChange(event) {
+                if (event.data == YT.PlayerState.PLAYING && !done) {
+                    var timem = setTimeout(pauseVideo, time);
+                    done = true;
+                }
+            }
+            function pauseVideo() {
+                document.getElementById("erot").innerHTML = "Is this DND Tavern ?";
+                player.pauseVideo();
+                $("#choice1").show();
+                $("#choice2").show();
+
+            }
+        </script>
+        <p id="erot">
+
+        </p>
+        <div id="Choice1">
+
+        </div>
+        <div id="Choice2">
+
+        </div>
+        <button id="choice1" hidden="">Yes</button>
+        <button id="choice2" hidden="">No</button>
+    </body>
+</html>
